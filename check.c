@@ -32,11 +32,10 @@ void	check(t_data_ph *data)
 			if (time > data->time_to_die)
 			{
 				print_ph(data, i, "died", 1);
-				printf("golod\n");
 				data->is_dead = 0;
 			}
 			pthread_mutex_unlock(&data->food_record);
-			usleep(150);
+			usleep(50);
 			i++;
 		}
 		if (data->eat_count_p != -1 && data->is_dead)

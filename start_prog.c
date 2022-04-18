@@ -10,7 +10,7 @@ void	eating_ph(t_ph *one_ph)
 	print_ph(one_ph->data, one_ph->nbr_id, "is eating", 0);
 	one_ph->last_time_eat = get_time() - one_ph->data->start_prog;
 	pthread_mutex_unlock(&one_ph->data->food_record);
-	usleep(one_ph->data->time_to_eat * 1000);
+	usleep(one_ph->data->time_to_eat);
 	one_ph->count_eat++;
 	pthread_mutex_unlock(one_ph->left_fork_m);
 	pthread_mutex_unlock(one_ph->right_fork_m);
@@ -24,12 +24,12 @@ void	*life_prog(void *one_ph)
 	one_phil = (t_ph *) one_ph;
 	data = one_phil->data;
 	if (one_phil->nbr_id % 2)
-		usleep(5000);
+		usleep(50);
 	while (data->is_dead)
 	{
 		eating_ph(one_phil);
 		print_ph(data, one_phil->nbr_id, "is sleeping", 0);
-		usleep(data->time_to_sleep * 1000);
+		usleep(data->time_to_sleep);
         print_ph(data, one_phil->nbr_id, "is thinking", 0);
 			if (data->ph_nbr == 1)
 		return (NULL);
