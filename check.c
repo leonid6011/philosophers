@@ -1,27 +1,22 @@
 #include "philo.h"
 
-// void	how_much_eat(t_data_ph *data)
-// {
-// 	int	i;
-// 	int	count;
+void	how_much_eat(t_data_ph *data)
+{
+	int	i;
 
-// 	i = 0;
-// 	count = 0;
-// 	while (i < data->ph_nbr)
-// 	{
-// 		if (data->all_ph->count_eat > data->eat_count_p)
-// 			count++;
-// 		i++;
-// 	}
-// 	if (count == data->ph_nbr)
-// 		data->dead_or_nbr = 0;
-// }
+	i = 0;
+	while (i < data->ph_nbr && data->dead_or_nbr)
+	{
+		if (data->all_ph[i].count_eat > data->eat_count_p)
+			data->dead_or_nbr = 0;
+		i++;	
+	}
+}
 
 void	check(t_data_ph *data)
 {
 	int					i;
 	unsigned long long	time;
-	int					count;
 
 	while (data->dead_or_nbr)
 	{
@@ -39,18 +34,6 @@ void	check(t_data_ph *data)
 			i++;
 		}
 		if (data->eat_count_p != -1 && data->dead_or_nbr)
-			//how_much_eat(data);
-		{
-			i = 0;
-			count = 0;
-			while (i < data->ph_nbr)
-			{
-				if (data->all_ph->count_eat > data->eat_count_p)
-					count++;
-				i++;
-			}
-			if (count == data->ph_nbr)
-				data->dead_or_nbr = 0;
-		}
+			how_much_eat(data);
 	}
 }

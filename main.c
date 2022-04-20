@@ -24,5 +24,7 @@ int main(int argc, char *argv[])
 		printf("Error in start_prog!\n");
 		return (1);
 	}
+	free(data.all_forks_m); //подпрограмма для чистки?
+	free(data.all_ph);
 	return (0);
 }

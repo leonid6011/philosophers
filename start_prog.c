@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	life_help_ph(t_ph *one_ph)
+void	life_eat_ph(t_ph *one_ph)
 {
 	pthread_mutex_lock(one_ph->right_fork_m);
 	print_ph(one_ph->data, one_ph->nbr_id, "has taken a fork", 0);
@@ -12,8 +12,12 @@ void	life_help_ph(t_ph *one_ph)
 	pthread_mutex_unlock(&one_ph->data->food_record);
 	my_usleep(one_ph->data->time_to_eat);
 	one_ph->count_eat++;
-	pthread_mutex_unlock(one_ph->left_fork_m);
 	pthread_mutex_unlock(one_ph->right_fork_m);
+	pthread_mutex_unlock(one_ph->left_fork_m);
+}
+
+void	life_sleep_and_think(t_ph *one_ph)
+{
 	print_ph(one_ph->data, one_ph->nbr_id, "is sleeping", 0);
 	my_usleep(one_ph->data->time_to_sleep);
     print_ph(one_ph->data, one_ph->nbr_id, "is thinking", 0);
@@ -30,7 +34,8 @@ void	*life_prog(void *one_ph)
 		my_usleep(5);
 	while (data->dead_or_nbr)
 	{
-		life_help_ph(one_phil);
+		life_eat_ph(one_phil);
+		life_sleep_and_think(one_ph);
 		if (data->ph_nbr == 1)
 			return (NULL);
 	}
@@ -44,7 +49,7 @@ int	start_prog(t_data_ph *data)
 
 	i = 0;
 	all_philos = data->all_ph;
-	data->start_prog= get_time();
+	data->start_prog = get_time();
 	while (i < data->ph_nbr)
 	{
 		if (pthread_create(&all_philos[i].philo_id_pthread, NULL, life_prog, &all_philos[i]))
@@ -64,7 +69,5 @@ int	start_prog(t_data_ph *data)
 		pthread_mutex_destroy(&data->all_forks_m[i++]);
 	pthread_mutex_destroy(&data->food_record);
 	pthread_mutex_destroy(&data->print);
-	free(data->all_forks_m); //подпрограмма для чистки?
-	free(data->all_ph);
 	return (0);
 }
