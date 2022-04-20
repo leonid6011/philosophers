@@ -25,7 +25,7 @@ typedef struct s_data_ph
 	unsigned long long		time_to_eat;
 	unsigned long long		time_to_sleep;
 	int						eat_count_p;
-	int 					is_dead;
+	int 					dead_or_nbr;
 	unsigned long long		start_prog;
 	t_ph					*all_ph;
 	pthread_mutex_t			*all_forks_m;
@@ -33,7 +33,7 @@ typedef struct s_data_ph
 	pthread_mutex_t			food_record;
 }	t_data_ph;
 
-
+int					check_input(char **argv);
 int					init_data(t_data_ph *data, int argc, char **argv);
 int					ft_atoi(const char *str);
 unsigned long long	get_time(void);
@@ -42,5 +42,6 @@ int					ph_init(t_data_ph *data);
 void				print_ph(t_data_ph *data, int nbr, char *str, int flag);
 void				check(t_data_ph *data);
 int					start_prog(t_data_ph *data);
+void				my_usleep(unsigned long long time_now);
 
 #endif

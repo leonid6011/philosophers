@@ -6,9 +6,9 @@ void	print_ph(t_data_ph *data, int nbr, char *str, int flag)
 
 	pthread_mutex_lock(&data->print);
     time = get_time() - data->start_prog;
-	if (data->is_dead)
+	if (data->dead_or_nbr)
 		printf("%lld %d %s\n", time, nbr + 1, str);
 	if (flag == 1)
-		data->is_dead = 0;
+		data->dead_or_nbr = 0;
 	pthread_mutex_unlock(&data->print);
 }

@@ -1,19 +1,22 @@
 #include "philo.h"
 
-void	eating_ph(t_ph *one_ph)
+void	life_help_ph(t_ph *one_ph)
 {
-	pthread_mutex_lock(one_ph->left_fork_m);
-	print_ph(one_ph->data, one_ph->nbr_id, "has taken a fork", 0);
 	pthread_mutex_lock(one_ph->right_fork_m);
+	print_ph(one_ph->data, one_ph->nbr_id, "has taken a fork", 0);
+	pthread_mutex_lock(one_ph->left_fork_m);
 	print_ph(one_ph->data, one_ph->nbr_id, "has taken a fork", 0);
 	pthread_mutex_lock(&one_ph->data->food_record);
 	print_ph(one_ph->data, one_ph->nbr_id, "is eating", 0);
 	one_ph->last_time_eat = get_time() - one_ph->data->start_prog;
 	pthread_mutex_unlock(&one_ph->data->food_record);
-	usleep(one_ph->data->time_to_eat);
+	my_usleep(one_ph->data->time_to_eat);
 	one_ph->count_eat++;
 	pthread_mutex_unlock(one_ph->left_fork_m);
 	pthread_mutex_unlock(one_ph->right_fork_m);
+	print_ph(one_ph->data, one_ph->nbr_id, "is sleeping", 0);
+	my_usleep(one_ph->data->time_to_sleep);
+    print_ph(one_ph->data, one_ph->nbr_id, "is thinking", 0);
 }
 
 void	*life_prog(void *one_ph)
@@ -24,15 +27,12 @@ void	*life_prog(void *one_ph)
 	one_phil = (t_ph *) one_ph;
 	data = one_phil->data;
 	if (one_phil->nbr_id % 2)
-		usleep(50);
-	while (data->is_dead)
+		my_usleep(5);
+	while (data->dead_or_nbr)
 	{
-		eating_ph(one_phil);
-		print_ph(data, one_phil->nbr_id, "is sleeping", 0);
-		usleep(data->time_to_sleep);
-        print_ph(data, one_phil->nbr_id, "is thinking", 0);
-			if (data->ph_nbr == 1)
-		return (NULL);
+		life_help_ph(one_phil);
+		if (data->ph_nbr == 1)
+			return (NULL);
 	}
 	return (NULL);
 }
@@ -55,7 +55,7 @@ int	start_prog(t_data_ph *data)
 	i = 0;
 	while (i < data->ph_nbr)
 	{
-		if (!data->is_dead)
+		if (!data->dead_or_nbr)
 			pthread_detach(data->all_ph[i].philo_id_pthread);//почему (из лекции) 
 		pthread_join(data->all_ph[i++].philo_id_pthread, NULL);
 	}
