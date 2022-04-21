@@ -5,12 +5,14 @@ OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -pthread
 %.o:%.c *.h
 	$(CC) $(CFLAGS) -c $< -o $@
-all: *.h
+all		: *.h
 	@$(MAKE) $(NAME)
-$(NAME): $(OBJS)
+$(NAME)	: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-clean:
+clean	:
 	rm -rf *.o
-fclean: clean
+fclean	: clean
 	rm -rf $(NAME)
 re: fclean all
+
+.PHONY	: all clean fclean re
