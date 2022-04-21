@@ -16,15 +16,15 @@ int main(int argc, char *argv[])
 	}
 	if (init_data(&data, argc, argv))
 	{
-		printf("Error in init_mutex!\n");
+		printf("In init_data!\n");
 		return (1);
 	}
 	if (start_prog(&data))
 	{
-		printf("Error in start_prog!\n");
+		printf("In start_prog!\n");
 		return (1);
 	}
-	free(data.all_forks_m); //подпрограмма для чистки?
+	free(data.all_forks_m);
 	free(data.all_ph);
 	return (0);
 }

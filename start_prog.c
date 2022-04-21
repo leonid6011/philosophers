@@ -12,8 +12,8 @@ void	life_eat_ph(t_ph *one_ph)
 	pthread_mutex_unlock(&one_ph->data->food_record);
 	my_usleep(one_ph->data->time_to_eat);
 	one_ph->count_eat++;
-	pthread_mutex_unlock(one_ph->right_fork_m);
 	pthread_mutex_unlock(one_ph->left_fork_m);
+	pthread_mutex_unlock(one_ph->right_fork_m);
 }
 
 void	life_sleep_and_think(t_ph *one_ph)

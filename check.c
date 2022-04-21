@@ -11,6 +11,7 @@ void	how_much_eat(t_data_ph *data)
 			data->dead_or_nbr = 0;
 		i++;	
 	}
+	my_usleep(1);
 }
 
 void	check(t_data_ph *data)
